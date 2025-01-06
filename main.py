@@ -59,7 +59,15 @@ async def fetch_channel_stats():
                         errors_count = errors_count + 1
             else:
                 print("Неверный номер папки.")
-        save_to_excel_with_formatting(stats, filename=f"{output_file}")
+
+        unique_stats = {}
+        for scraper in stats:
+            unique_stats[scraper.name] = scraper
+
+        # Получаем список уникальных объектов
+        unique_stats_list = list(unique_stats.values())
+
+        save_to_excel_with_formatting(unique_stats_list, filename=f"{output_file}")
         print('Статистика сохранена в ', output_file)
         print('Ошибок при парсинге каналов: ', errors_count)
 
