@@ -98,7 +98,6 @@ class ChannelScraper:
             self.statistic.freq_posts_per_week = avg_posts_per_week
             self.statistic.average_message_length = avg_message_length
             self.statistic.engagement_rate = engagement_rate
-            print(self.statistic)
             return self.statistic
         except Exception as e:
             print("Не удалось собрать статистику для", self.channel_identifier)
