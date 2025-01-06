@@ -27,10 +27,10 @@ async def fetch_channel_stats():
         # Выводим полученные фильтры
         for idx, filt in enumerate(filters.filters):
             if idx == 0: continue
-            print(f"{idx + 1}. Фильтр: {filt.title}")
+            print(f"{idx + 1}. Папка: {filt.title}")
 
         # Спрашиваем пользователя, какие фильтры он хочет выбрать (ввод через пробел)
-        selected_filters_input = input("Введите номера фильтров через пробел для анализа: ")
+        selected_filters_input = input("Введите номера папок через пробел для анализа: ")
 
         # Преобразуем ввод в список номеров фильтров
         selected_filter_idxs = [int(idx) - 1 for idx in selected_filters_input.split()]
