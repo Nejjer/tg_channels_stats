@@ -1,4 +1,3 @@
-import statistics
 from dataclasses import dataclass
 
 from telethon import TelegramClient
@@ -19,7 +18,6 @@ class ChannelStatistic:
         freq_posts_per_week (float): Средняя частота публикаций в неделю.
         average_comments (float): Среднее количество комментариев на пост.
         average_message_length (float): Среднее длина сообщения.
-        median_message_length (float): Медианная длина сообщения.
         engagement_rate (float): Вовлеченность.
     """
     name: str = ""
@@ -29,7 +27,6 @@ class ChannelStatistic:
     freq_posts_per_week: float = -1
     average_comments: float = -1
     average_message_length: float = -1
-    median_message_length: float = -1
     engagement_rate: float = -1
 
 
@@ -92,7 +89,6 @@ class ChannelScraper:
 
             # Длина сообщений
             avg_message_length = round(sum(message_lengths) / len(message_lengths), decimal_places)
-            median_message_length = statistics.median(message_lengths)
             engagement_rate = round(((avg_views + avg_reactions + avg_comments) / subscribers_count) * 100,
                                     2) if subscribers_count > 0 else 0
 
@@ -101,7 +97,6 @@ class ChannelScraper:
             self.statistic.average_reacts = avg_reactions
             self.statistic.freq_posts_per_week = avg_posts_per_week
             self.statistic.average_message_length = avg_message_length
-            self.statistic.median_message_length = median_message_length
             self.statistic.engagement_rate = engagement_rate
             print(self.statistic)
             return self.statistic
