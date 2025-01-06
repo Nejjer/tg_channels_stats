@@ -22,6 +22,7 @@ def save_to_excel_with_formatting(stats: List[ChannelStatistic], filename: str):
 
     # Рассчитываем перцентили для всех числовых столбцов
     percentiles_75 = {}
+    percentiles_90 = {}
     percentiles_10 = {}
     percentiles_25 = {}
     for column in df.columns:
@@ -29,11 +30,13 @@ def save_to_excel_with_formatting(stats: List[ChannelStatistic], filename: str):
             percentiles_75[column] = df[column].quantile(0.75)
             percentiles_10[column] = df[column].quantile(0.10)
             percentiles_25[column] = df[column].quantile(0.25)
+            percentiles_90[column] = df[column].quantile(0.90)
 
     # Задаем стили для заливки
-    yellow_fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-    red_fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
-    green_fill = PatternFill(start_color="00ff00", end_color="00ff00", fill_type="solid")
+    yellow_fill_25 = PatternFill(start_color="ffcf69", end_color="ffcf69", fill_type="solid")
+    red_fill_10 = PatternFill(start_color="ff6969", end_color="ff6969", fill_type="solid")
+    green_fill_90 = PatternFill(start_color="2ef520", end_color="2ef520", fill_type="solid")
+    white_green_fill_75 = PatternFill(start_color="c0ff69", end_color="c0ff69", fill_type="solid")
 
     # Применяем форматирование
     for col_idx, column in enumerate(df.columns, start=1):  # Перебираем столбцы
@@ -41,15 +44,18 @@ def save_to_excel_with_formatting(stats: List[ChannelStatistic], filename: str):
             perc_75 = percentiles_75[column]
             perc_10 = percentiles_10[column]
             perc_25 = percentiles_25[column]
+            perc_90 = percentiles_90[column]
             for row_idx in range(2, len(df) + 2):  # Перебираем строки (пропуская заголовок)
                 cell = ws.cell(row=row_idx, column=col_idx)
                 if cell.value is not None:
                     if cell.value < perc_10:
-                        cell.fill = red_fill
+                        cell.fill = red_fill_10
                     elif cell.value < perc_25:
-                        cell.fill = yellow_fill
+                        cell.fill = yellow_fill_25
+                    elif cell.value > perc_90:
+                        cell.fill = green_fill_90
                     elif cell.value > perc_75:
-                        cell.fill = green_fill
+                        cell.fill = white_green_fill_75
 
     # Устанавливаем автоматическую ширину столбцов
     for col in ws.columns:
