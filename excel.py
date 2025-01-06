@@ -57,6 +57,19 @@ def save_to_excel_with_formatting(stats: List[ChannelStatistic], filename: str):
                     elif cell.value > perc_75:
                         cell.fill = white_green_fill_75
 
+    # Делаем легенду для цветов
+    cell = ws['K1']
+    cell.value = '10% лучшего'
+    cell.fill = green_fill_90
+    cell = ws['K2']
+    cell.value = '25% лучшего'
+    cell.fill = white_green_fill_75
+    cell = ws['K3']
+    cell.value = '25% худшего'
+    cell.fill = yellow_fill_25
+    cell = ws['K4']
+    cell.value = '10% худшего'
+    cell.fill = red_fill_10
     # Устанавливаем автоматическую ширину столбцов
     for col in ws.columns:
         max_length = 0
@@ -84,11 +97,10 @@ if __name__ == "__main__":
             freq_posts_per_week=round(random.uniform(1, 14), 1),
             average_comments=round(random.uniform(5, 100), 1),
             average_message_length=round(random.uniform(50, 500), 1),
-            median_message_length=round(random.uniform(40, 450), 1),
             engagement_rate=round(random.uniform(0, 100), 1)
         ) for i in range(15)
     ]
-    stats.append(ChannelStatistic('name', 1, 1, 1, 1, 1, 1, 1, 1))
+    stats.append(ChannelStatistic('name', 1, 1, 1, 1, 1, 1, 1))
 
     save_to_excel_with_formatting(stats, "channel_statistics.xlsx")
     print("Данные успешно сохранены в channel_statistics.xlsx")
