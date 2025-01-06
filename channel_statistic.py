@@ -1,6 +1,5 @@
 import statistics
 from dataclasses import dataclass
-from xxlimited import Error
 
 from telethon import TelegramClient
 from telethon.tl.functions.channels import GetFullChannelRequest
@@ -62,7 +61,7 @@ class ChannelScraper:
             # Анализируем сообщения
             if not messages:
                 print("Нет сообщений для анализа.")
-                raise Error()
+                raise
 
             total_views = 0
             total_reactions = 0
